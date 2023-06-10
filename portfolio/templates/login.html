@@ -1,6 +1,6 @@
-{% extends "base.html" %}
+{% extends "main.html" %}
 {% block body %}
-<div class="content-section">
+<div class="content-section d-flex justify-content-center float-md-none py-5">
 	<form method="POST", action="">
 		{{ form.hidden_tag() }}
 		<fieldset class="form-group">
@@ -41,7 +41,7 @@
 			</div>
 		</fieldset>
 		<div>
-			{{ form.submit(class="btn btn-outline-info") }}
+			{{ form.submit(class="btn btn-outline-info w-100") }}
 		</div>
 		<small class="text-muted ml-2">
 			<a class="mb-3" href="#">Forgot Password</a>

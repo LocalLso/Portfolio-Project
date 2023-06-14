@@ -92,9 +92,9 @@ def account():
 def lgcse():
     return render_template('lgcse.html', title='LGCSE')
 
-@app.route("/gradeE")
-def gradeE():
-    return render_template('gradeE.html', title='Grade-8')
+@app.route("/grade/<int:grade_id>/maths:<int:maths_id>")
+def maths():
+    return render_template('.html', title='Grade-8')
 
 @app.route("/gradeN")
 def gradeN():

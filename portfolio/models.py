@@ -37,3 +37,17 @@ class Tests(db.Model):
 
     def __repr__(self):
         return f"Tests('{self.name}', '{self.subject}')"
+
+class Grade(db.Model):
+    __tablename__ = 'grade'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(60), nullable=False)
+
+    def __repr__(self):
+        return f"Grade('{self.name}')"
+
+
+class Subjects(db.Model):
+    __tablename__= 'subjects'
+    id = db.Column(db.Integer, primary_key=True)
+    

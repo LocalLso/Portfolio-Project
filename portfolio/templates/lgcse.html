@@ -1,28 +1,110 @@
 {% extends "main.html" %}
-{% block body %}
-<head>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
-</head>
-<div class="container justify-content-center float-md-none pt-5 pb-5">
-	<div class="container text-center pb-5">
-		<span class="material-symbols-sharp">
-			home
-		</span>
-		<h2 class="text-body-secondary">Please select grade</h2>
-	</div>
-	<div class="pt-2 mb-2">
-		<div class="d-grid gap-2 col-4 mx-auto border border-secondary rounded mb-2">
-			<a class="btn btn-outline-secondary" href="{{ url_for('gradeE') }}" role="button">Grade 8</a>
+{% block header %}
+<div class="container-fluid h-100">
+	<div class="row h-100">
+		<div class="col-3 bg-secondary text-white">
+			<div class="row">
+				<ul class="nav flex-column">
+					<div class="text-white py-4" style="text-align: center; padding: 15px;">
+						<h6 >Choose Subject</h6>
+					</div>
+					<li class="nav-item dropdown dropend">
+						<a class="nav-link dropdown-toggle  text-white py-4" data-bs-toggle="dropdown" href="#" role="button" style="text-align: center;
+						padding: 15px;" aria-expanded="false">Grade-8</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Mathematics</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Physics</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Chemistry</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Biology</a></li>
+						</ul>
+					</li>
+					<li class="nav-item dropdown dropend">
+						<a class="nav-link dropdown-toggle text-white py-4" data-bs-toggle="dropdown" href="#" role="button" style="text-align: center;
+						padding: 15px;" aria-expanded="false">Grade-9</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Mathematics</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Physics</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Chemistry</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Biology</a></li>
+						</ul>
+					</li>
+					<li class="nav-item dropdown dropend">
+						<a class="nav-link dropdown-toggle text-white py-4" data-bs-toggle="dropdown" href="#" role="button" style="text-align: center;
+						padding: 15px;" aria-expanded="false">Grade-10</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Mathematics</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Physics</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Chemistry</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Biology</a></li>
+						</ul>
+					</li>
+					<li class="nav-item dropdown dropend">
+						<a class="nav-link dropdown-toggle text-white py-4" data-bs-toggle="dropdown" 	href="#" role="button" style="text-align: center;
+						padding: 15px;" aria-expanded="false">Grade-11</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Mathematics</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Physics</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Chemistry</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Biology</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 		</div>
-		<div class="d-grid gap-2 col-4 mx-auto border border-secondary rounded mb-2">
-			<a class="btn btn-outline-secondary" href="{{ url_for('gradeN') }}" role="button">Grade 9</a>
-		</div>
-		<div class="d-grid gap-2 col-4 mx-auto border border-secondary rounded mb-2">
-			<a class="btn btn-outline-secondary" href="{{ url_for('gradeT') }}" role="button">Grade 10</a>
-		</div>
-		<div class="d-grid gap-2 col-4 mx-auto border border-secondary rounded mb-2">
-			<a class="btn btn-outline-secondary" href="{{ url_for('gradeEl') }}" role="button">Grade 11</a>
+		<div class="col-9 overflow-auto h-100 py-5">
+			<div class="row">
+				<div class="container-fluid d-flex justify-content-center py-4">
+					<div class="card border border-bottom text-secondary" style="width: 35rem;">
+						<h5 class="card-header"> Upcoming events</h5>
+						<div class="card-body">
+							<h5 class="card-title">Events and notifications</h5>
+							<p class="card-text">The are no upcoming events. Stay turned for the very events and notification to stay on course and up to date.</p>
+							<a href="#" class="btn btn-primary bg-dark border-secondary">Go to events</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="container-fluid d-flex justify-content-center py-4">
+					<div class="card border border-bottom text-secondary" style="width: 35rem;">
+						<h5 class="card-header">Current assignments</h5>
+						<div class="card-body">
+							<h5 class="card-title">Assignments and tests</h5>
+							<p class="card-text">The are no assignments at the moment and no tets as well. Enjoy the silence</p>
+							<a href="#" class="btn btn-primary bg-dark border-secondary">Go to tests</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="container-fluid d-flex justify-content-center py-4">
+					<div class="card border border-bottom text-secondary" style="width: 35rem;">
+						<h5 class="card-header">Maths contents</h5>
+						<div class="card-body">
+							<h5 class="card-title">The mathematics contest</h5>
+							<p class="card-text">There are not maths contest yet, keep checking up for up dates. Participate to help reinforce your maths skills.</p>
+							<a href="#" class="btn btn-primary bg-dark border-secondary">Join contest</a>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
+{% endblock header %}
+<!-- Block Body -->
+{% block body %}
+
 {% endblock body %}

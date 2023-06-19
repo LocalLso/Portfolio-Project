@@ -64,47 +64,16 @@
 			</div>
 		</div>
 		<div class="col-9 overflow-auto h-100 py-5">
-			<div class="row">
-				<div class="container-fluid d-flex justify-content-center py-4">
-					<div class="card border border-bottom text-secondary" style="width: 35rem;">
-						<h5 class="card-header"> Upcoming events</h5>
-						<div class="card-body">
-							<h5 class="card-title">Events and announcements</h5>
-							<p class="card-text">The are no upcoming events. Stay turned for the very events and announcements to stay on course and up to date.</p>
-							<a href="#" class="btn btn-primary bg-dark border-secondary">Go to events</a>
-						</div>
+			<div class="row text-dark">
+				{% for file in files %}
+					<div>
+						<a href="#">{{ file.FileName }}</a>
+						<small>{{ file.DateCreated.strftime('%Y-%m-%d') }}</small>
+						<small>By {{file.teacher.name}}</small>
 					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="container-fluid d-flex justify-content-center py-4">
-					<div class="card border border-bottom text-secondary" style="width: 35rem;">
-						<h5 class="card-header">Current assignments</h5>
-						<div class="card-body">
-							<h5 class="card-title">Assignments and tests</h5>
-							<p class="card-text">The are no assignments at the moment and no tets as well. Enjoy the silence</p>
-							<a href="#" class="btn btn-primary bg-dark border-secondary">Go to tests</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="container-fluid d-flex justify-content-center py-4">
-					<div class="card border border-bottom text-secondary" style="width: 35rem;">
-						<h5 class="card-header">Maths contents</h5>
-						<div class="card-body">
-							<h5 class="card-title">The mathematics contest</h5>
-							<p class="card-text">There are not maths contest yet, keep checking up for up dates. Participate to help reinforce your maths skills.</p>
-							<a href="#" class="btn btn-primary bg-dark border-secondary">Join contest</a>
-						</div>
-					</div>
-				</div>
+				{% endfor %}
 			</div>
 		</div>
 	</div>
 </div>
 {% endblock header %}
-<!-- Block Body -->
-{% block body %}
-
-{% endblock body %}

@@ -7,6 +7,8 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from portfolio.models import Teachers, Students, Tests
 
 class RegistrationForm(FlaskForm):
+	name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
+	surname = StringField('Surname', validators=[DataRequired(), Length(min=2, max=20)])
 	username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
 	email = StringField('Email', validators=[DataRequired(), Email()])
 	password = PasswordField('Password', validators=[DataRequired()])
@@ -49,3 +51,9 @@ class UpdateAccountForm(FlaskForm):
 			user = Teachers.query.filter_by(email=email.data).first()
 			if user:
 				raise ValidationError('Please chose a different email')
+
+
+class UploadForm(FlaskForm):
+	file = FileField('File', validators=[DataRequired()])
+	subject = StringField('Subject', validators=[DataRequired(), Length(min=2, max=20)])
+	upload = SubmitField()

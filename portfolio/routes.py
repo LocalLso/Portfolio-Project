@@ -1,10 +1,12 @@
-from flask import Flask, render_template, flash, redirect, url_for, request
-from portfolio.models import Teachers, Students, Tests
-from portfolio.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from flask import Flask, render_template, flash, redirect, url_for, request, send_file
+from io import BytesIO
+from portfolio.models import Teachers, Students, Tests,FileUploads, Subjects
+from portfolio.forms import RegistrationForm, LoginForm, UpdateAccountForm, UploadForm
 from portfolio import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
 import secrets
 import os
+from werkzeug.utils import secure_filename
 from PIL import Image
 
 @app.route("/")
@@ -23,7 +25,7 @@ def register():
         return redirect(url_for('home'))
     if  form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = Teachers(username=form.username.data, email=form.email.data, password=hashed_password)
+        user = Teachers(name=form.name.data, surname=form.surname.data, username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         flash(f'Account created for {form.username.data}', 'success!')
@@ -92,18 +94,25 @@ def account():
 def lgcse():
     return render_template('lgcse.html', title='LGCSE')
 
-@app.route("/grade/<int:grade_id>/maths:<int:maths_id>")
+@app.route("/maths", methods=['GET','POST'])
+@login_required
 def maths():
-    return render_template('.html', title='Grade-8')
+    form = UploadForm()
+    if form.validate_on_submit():
+        file = form.file.data
+        subject = form.subject.data
+        data = form.file.data
+        file_uploaded = secure_filename(file.filename)
+        if file_uploaded != '':
+            FileUpload = FileUploads(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), teacher=current_user)
+            db.session.add(FileUpload)
+            db.session.commit()
+            return redirect(url_for('maths'))
+    files = FileUploads.query.all()
+    return render_template('maths.html', title='mathematics', form=form, files=files)
 
-@app.route("/gradeN")
-def gradeN():
-    return render_template('gradeN.html', title='Grade-9')
+@app.route("/maths/<int:upload_id>/uploads")
+def uploads(upload_id):
+    file = FileUploads.query.get_or_404(upload_id)
+    return send_file(BytesIO(file.Data), download_name=file.FileName, as_attachment=True)
 
-@app.route("/gradeT")
-def gradeT():
-    return render_template('gradeT.html', title='Grade-10')
-
-@app.route("/gradeEl")
-def gradeEl():
-    return render_template('gradeEl.html', title='Grade-11')

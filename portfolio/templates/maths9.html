@@ -1,0 +1,138 @@
+{% extends "main.html" %}
+{% block header %}
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="col-3 bg-secondary text-white">
+            <div class="row">
+                <ul class="nav flex-column">
+                    <div class="text-white py-4" style="text-align: center; padding: 15px;">
+                        <h6 >Choose Subject</h6>
+                    </div>
+                    <li class="nav-item dropdown dropend">
+                        <a class="nav-link dropdown-toggle  text-white py-4" data-bs-toggle="dropdown" href="#" role="button" style="text-align: center;
+                        padding: 15px;" aria-expanded="false">Grade-8</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('grade8', subject=subject) }}">Mathematics</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Physics</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Chemistry</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Biology</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown dropend">
+                        <a class="nav-link dropdown-toggle text-white py-4" data-bs-toggle="dropdown" href="#" role="button" style="text-align: center;
+                        padding: 15px;" aria-expanded="false">Grade-9</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('grade9', subject=subject) }}">Mathematics</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Physics</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Chemistry</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Biology</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown dropend">
+                        <a class="nav-link dropdown-toggle text-white py-4" data-bs-toggle="dropdown" href="#" role="button" style="text-align: center;
+                        padding: 15px;" aria-expanded="false">Grade-10</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('grade10', subject=subject) }}">Mathematics</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Physics</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Chemistry</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Biology</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown dropend">
+                        <a class="nav-link dropdown-toggle text-white py-4" data-bs-toggle="dropdown"   href="#" role="button" style="text-align: center;
+                        padding: 15px;" aria-expanded="false">Grade-11</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('grade11', subject=subject) }}">Mathematics</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Physics</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Chemistry</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Biology</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-9 overflow-auto h-100 py-5">
+            <div class="row">
+                <div class="container-fluid d-flex justify-content-center py-4">
+                    <div class="card border border-bottom text-secondary" style="width: 35rem;">
+                        <h5 class="card-header"> Upload file</h5>
+                        <div class="card-body">
+                            <div class="content-section d-flex justify-content-center float-md-none py-5">
+                                <form method="POST", action="" enctype="multipart/form-data">
+                                    {{ form.hidden_tag() }}
+                                    <fieldset class="form-group">
+                                        <legend class="border-botttom mb-4">Upload File</legend>
+                                        <div class="mb-3">
+                                            {{ form.file.label() }}<br>
+                                            {{ form.file(class="form-control-file") }}
+                                            {% if form.file.errors %}
+                                            {% for error in form.file.errors %}
+                                            <span class="text-danger">{{ error }}</span><br>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-group">
+                                                {{ form.subject.label(class="form-control-label") }}<br>
+                                                {% if form.subject.errors %}
+                                                {{ form.subject(class="form-control-lg is-invalid") }}
+                                                <div class="invalid-feedback">
+                                                    {% for error in form.subject.errors %}
+                                                    <span>{{ error }}</span>
+                                                    {% endfor %}
+                                                </div>
+                                                {% else %}
+                                                {{ form.subject(class="form-control-lg") }} 
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <div>
+                                        {{ form.upload(class="btn btn-outline-info btn-sm bg-dark border-secondary") }}
+                                    </div>
+                                </form>
+                            </div>
+                            <!--<a href="#" class="btn btn-primary bg-dark border-secondary">Go to events</a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="container-fluid d-flex justify-content-center py-4">
+                    <div class="card border border-bottom text-secondary" style="width: 35rem;">
+                        <h5 class="card-header"> Uploaded files</h5>
+                        <div class="card-body">
+                            <div class="text-dark justify-content-center text-center">
+                                {% for file in files9 %}
+                                <div>
+                                    <a href="{{ url_for('uploads9', upload_id=file.id) }}">{{ file.FileName }}</a>
+                                    <small>{{file.SubjectName}}</small>
+                                    <small>{{ file.DateCreated.strftime('%Y-%m-%d') }}</small>
+                                    <small>By {{file.teacher.name}}</small>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <!--<a href="#" class="btn btn-primary bg-dark border-secondary">Go to events</a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock header %}
+{% block body %}
+
+{% endblock body %}

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, send_file
 from io import BytesIO
-from portfolio.models import Teachers, Students, Tests,FileUploads, Subjects
+from portfolio.models import Teachers, Students, Tests, FileUploads, FileUploadsG9, FileUploadsG10, FileUploadsG11, Subjects
 from portfolio.forms import RegistrationForm, LoginForm, UpdateAccountForm, UploadForm
 from portfolio import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
@@ -92,27 +92,117 @@ def account():
 
 @app.route("/lgcse")
 def lgcse():
-    return render_template('lgcse.html', title='LGCSE')
+    return render_template('lgcse.html', title='LGCSE', subject='mathematics')
 
-@app.route("/maths", methods=['GET','POST'])
+
+@app.route("/grade8/<subject>", methods=['GET','POST'])
 @login_required
-def maths():
+def grade8(subject):
     form = UploadForm()
     if form.validate_on_submit():
         file = form.file.data
         subject = form.subject.data
         data = form.file.data
         file_uploaded = secure_filename(file.filename)
+        f_ext = os.path.splitext(file.filename)[1]
         if file_uploaded != '':
+            if f_ext not in app.config['ALLOWED_EXTENSIONS']:
+                return redirect(url_for('grade8', subject="mathematics"))
             FileUpload = FileUploads(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), teacher=current_user)
             db.session.add(FileUpload)
             db.session.commit()
-            return redirect(url_for('maths'))
-    files = FileUploads.query.all()
-    return render_template('maths.html', title='mathematics', form=form, files=files)
+            files8 = FileUploads.query.all()
+            return render_template('maths8.html', title='G8-Maths', files8=files8, form=form, subject="mathematics")
+    elif request.method == 'GET':
+        files8 = FileUploads.query.all()
+    return render_template('maths8.html', title='mathematics', form=form, files8=files8, subject="mathematics")
+
+
+@app.route("/grade9/<subject>", methods=['GET','POST'])
+@login_required
+def grade9(subject):
+    form = UploadForm()
+    if form.validate_on_submit():
+        file = form.file.data
+        subject = form.subject.data
+        data = form.file.data
+        file_uploaded = secure_filename(file.filename)
+        f_ext = os.path.splitext(file.filename)[1]
+        if file_uploaded != '':
+            if f_ext not in app.config['ALLOWED_EXTENSIONS']:
+                return redirect(url_for('grade9', subject="mathematics"))
+            FileUpload = FileUploadsG9(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), teacher=current_user)
+            db.session.add(FileUpload)
+            db.session.commit()
+            files9 = FileUploadsG9.query.all()
+            return render_template('maths9.html', title='G9-Maths', files9=files9, form=form, subject="mathematics")
+    elif request.method == 'GET':
+        files9 = FileUploadsG9.query.all()
+    return render_template('maths9.html', title='mathematics', form=form, subject="mathematics", files9=files9)
+
+
+@app.route("/grade10/<subject>", methods=['GET','POST'])
+@login_required
+def grade10(subject):
+    form = UploadForm()
+    if form.validate_on_submit():
+        file = form.file.data
+        subject = form.subject.data
+        data = form.file.data
+        file_uploaded = secure_filename(file.filename)
+        f_ext = os.path.splitext(file.filename)[1]
+        if file_uploaded != '':
+            if f_ext not in app.config['ALLOWED_EXTENSIONS']:
+                return redirect(url_for('grade10', subject="mathematics"))
+            FileUpload = FileUploadsG10(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), teacher=current_user)
+            db.session.add(FileUpload)
+            db.session.commit()
+            files10 = FileUploadsG10.query.all()
+            return render_template('maths10.html', title='G10-Maths',files10=files10, form=form, subject="mathematics")
+    elif request.method == 'GET':
+        files10 = FileUploadsG10.query.all()
+    return render_template('maths10.html', title='mathematics', form=form, subject="mathematics", files10=files10)
+
+
+@app.route("/grade11/<subject>", methods=['GET','POST'])
+@login_required
+def grade11(subject):
+    form = UploadForm()
+    if form.validate_on_submit():
+        file = form.file.data
+        subject = form.subject.data
+        data = form.file.data
+        file_uploaded = secure_filename(file.filename)
+        f_ext = os.path.splitext(file.filename)[1]
+        if file_uploaded != '':
+            if f_ext not in app.config['ALLOWED_EXTENSIONS']:
+                return redirect(url_for('grade11', subject="mathematics"))
+            FileUpload = FileUploadsG11(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), teacher=current_user)
+            db.session.add(FileUpload)
+            db.session.commit()
+            files11 = FileUploadsG11.query.all()
+            return render_template('maths11.html', title='G11-Maths',files11=files11, form=form, subject="mathematics")
+    elif request.method == 'GET':
+        files11 = FileUploadsG11.query.all()
+    return render_template('maths11.html', title='mathematics', form=form, subject="mathematics", files11=files11)
+
 
 @app.route("/maths/<int:upload_id>/uploads")
 def uploads(upload_id):
     file = FileUploads.query.get_or_404(upload_id)
     return send_file(BytesIO(file.Data), download_name=file.FileName, as_attachment=True)
 
+@app.route("/maths/<int:upload_id>/uploads")
+def uploads9(upload_id):
+    file = FileUploadsG9.query.get_or_404(upload_id)
+    return send_file(BytesIO(file.Data), download_name=file.FileName, as_attachment=True)
+
+@app.route("/maths/<int:upload_id>/uploads")
+def uploads10(upload_id):
+    file = FileUploadsG10.query.get_or_404(upload_id)
+    return send_file(BytesIO(file.Data), download_name=file.FileName, as_attachment=True)
+
+@app.route("/maths/<int:upload_id>/uploads")
+def uploads11(upload_id):
+    file = FileUploadsG11.query.get_or_404(upload_id)
+    return send_file(BytesIO(file.Data), download_name=file.FileName, as_attachment=True)

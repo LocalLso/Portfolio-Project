@@ -12,7 +12,7 @@
 						<a class="nav-link dropdown-toggle  text-white py-4" data-bs-toggle="dropdown" href="#" role="button" style="text-align: center;
 						padding: 15px;" aria-expanded="false">Grade-8</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="{{ url_for('maths') }}">Mathematics</a></li>
+							<li><a class="dropdown-item" href="{{ url_for('grade8', subject=subject) }}">Mathematics</a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#">Physics</a></li>
 							<li><hr class="dropdown-divider"></li>
@@ -25,7 +25,7 @@
 						<a class="nav-link dropdown-toggle text-white py-4" data-bs-toggle="dropdown" href="#" role="button" style="text-align: center;
 						padding: 15px;" aria-expanded="false">Grade-9</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Mathematics</a></li>
+							<li><a class="dropdown-item" href="{{ url_for('grade9', subject=subject) }}">Mathematics</a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#">Physics</a></li>
 							<li><hr class="dropdown-divider"></li>
@@ -38,7 +38,7 @@
 						<a class="nav-link dropdown-toggle text-white py-4" data-bs-toggle="dropdown" href="#" role="button" style="text-align: center;
 						padding: 15px;" aria-expanded="false">Grade-10</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Mathematics</a></li>
+							<li><a class="dropdown-item" href="{{ url_for('grade10', subject=subject) }}">Mathematics</a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#">Physics</a></li>
 							<li><hr class="dropdown-divider"></li>
@@ -51,7 +51,7 @@
 						<a class="nav-link dropdown-toggle text-white py-4" data-bs-toggle="dropdown" 	href="#" role="button" style="text-align: center;
 						padding: 15px;" aria-expanded="false">Grade-11</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Mathematics</a></li>
+							<li><a class="dropdown-item" href="{{ url_for('grade11', subject=subject) }}">Mathematics</a></li>
 							<li><hr class="dropdown-divider"></li>
 							<li><a class="dropdown-item" href="#">Physics</a></li>
 							<li><hr class="dropdown-divider"></li>
@@ -115,9 +115,9 @@
 						<h5 class="card-header"> Uploaded files</h5>
 						<div class="card-body">
 							<div class="text-dark justify-content-center text-center">
-								{% for file in files %}
+								{% for file in files11 %}
 								<div>
-									<a href="{{ url_for('uploads', upload_id=file.id) }}">{{ file.FileName }}</a>
+									<a href="{{ url_for('uploads11', upload_id=file.id) }}">{{ file.FileName }}</a>
 									<small>{{file.SubjectName}}</small>
 									<small>{{ file.DateCreated.strftime('%Y-%m-%d') }}</small>
 									<small>By {{file.teacher.name}}</small>

@@ -20,7 +20,10 @@ class Teachers(db.Model, UserMixin):
     solution = db.relationship('Solutions', backref='teacher', lazy=True)
     notes = db.relationship('Notes', backref='teacher', lazy=True)
     assignments = db.relationship('Assignments', backref='teacher', lazy=True)
-    uploads = db.relationship('FileUploads', backref='teacher', lazy=True)
+    uploads8 = db.relationship('FileUploads', backref='teacher', lazy=True)
+    uploads9 = db.relationship('FileUploadsG9', backref='teacher', lazy=True)
+    uploads10 = db.relationship('FileUploadsG10', backref='teacher', lazy=True)
+    uploads11 = db.relationship('FileUploadsG11', backref='teacher', lazy=True)
 
     def __repr__(self):
         return f"Teachers('{self.username}', '{self.email}', '{self.image_file}')"
@@ -52,7 +55,7 @@ student_subjects = db.Table('student_subjects',
     )
 
 
-class Subjects(db.Model, UserMixin):
+class Subjects(db.Model):
     __tablename__= 'subjects'
     id = db.Column(db.Integer, primary_key=True)
     SubjectName = db.Column(db.String(20), unique=True, nullable=False)
@@ -66,7 +69,7 @@ class Subjects(db.Model, UserMixin):
         return f"Subjects('{self.SubjectName}')"
 
 
-class Grade(db.Model, UserMixin):
+class Grade(db.Model):
     __tablename__= 'grade'
     id = db.Column(db.Integer, primary_key=True)
     GradeName = db.Column(db.String(20), unique=True, nullable=False)
@@ -77,7 +80,7 @@ class Grade(db.Model, UserMixin):
 
 
 
-class Tests(db.Model, UserMixin):
+class Tests(db.Model):
     __tablename__ = 'tests'
     id = db.Column(db.Integer, primary_key=True)
     TestName = db.Column(db.String(60), nullable=False)
@@ -88,7 +91,7 @@ class Tests(db.Model, UserMixin):
     def __repr__(self):
         return f"Tests('{self.TestName}', '{self.DateCreated}')"
 
-class Solutions(db.Model, UserMixin):
+class Solutions(db.Model):
     __tablename__ = 'solutions'
     id = db.Column(db.Integer, primary_key=True)
     SolutionName = db.Column(db.String(60), nullable=False)
@@ -100,7 +103,7 @@ class Solutions(db.Model, UserMixin):
         return f"Solutions('{self.SolutionName}', '{self.DateCreated}')"
 
 
-class Assignments(db.Model, UserMixin):
+class Assignments(db.Model):
     __tablename__ = 'assignments'
     id = db.Column(db.Integer, primary_key=True)
     AssignmentName = db.Column(db.String(60), nullable=False)
@@ -112,7 +115,7 @@ class Assignments(db.Model, UserMixin):
         return f"Assignments('{self.AssignmentName}', '{self.DateCreated}')"
 
 
-class Notes(db.Model, UserMixin):
+class Notes(db.Model):
     __tablename__ = 'notes'
     id = db.Column(db.Integer, primary_key=True)
     NotesName = db.Column(db.String(60), nullable=False)
@@ -123,7 +126,7 @@ class Notes(db.Model, UserMixin):
     def __repr__(self):
         return f"Notes('{self.NotesName}', '{self.DateCreated}')"
 
-class FileUploads(db.Model, UserMixin):
+class FileUploads(db.Model):
     __tablename__ = 'fileuploads'
     id = db.Column(db.Integer, primary_key=True)
     FileName = db.Column(db.String(60), nullable=False)
@@ -134,3 +137,51 @@ class FileUploads(db.Model, UserMixin):
 
     def __repr__(self):
         return f"FileUploads('{self.FileName}', '{self.DateCreated}', '{self.teacher}')"
+
+class FileUploadsG9(db.Model):
+    __tablename__ = 'fileuploadsg9'
+    id = db.Column(db.Integer, primary_key=True)
+    FileName = db.Column(db.String(60), nullable=False)
+    SubjectName = db.Column(db.String(60), nullable=False)
+    DateCreated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    Data = db.Column(db.LargeBinary)
+    teacher_id = db.Column(db.Integer(), db.ForeignKey('teachers.id'), nullable=False)
+
+    def __repr__(self):
+        return f"FileUploadsG9('{self.FileName}', '{self.DateCreated}', '{self.teacher}')"
+
+class FileUploadsG10(db.Model):
+    __tablename__ = 'fileuploadsg10'
+    id = db.Column(db.Integer, primary_key=True)
+    FileName = db.Column(db.String(60), nullable=False)
+    SubjectName = db.Column(db.String(60), nullable=False)
+    DateCreated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    Data = db.Column(db.LargeBinary)
+    teacher_id = db.Column(db.Integer(), db.ForeignKey('teachers.id'), nullable=False)
+
+    def __repr__(self):
+        return f"FileUploadsG10('{self.FileName}', '{self.DateCreated}', '{self.teacher}')"
+
+class FileUploadsG11(db.Model):
+    __tablename__ = 'fileuploadsg11'
+    id = db.Column(db.Integer, primary_key=True)
+    FileName = db.Column(db.String(60), nullable=False)
+    SubjectName = db.Column(db.String(60), nullable=False)
+    DateCreated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    Data = db.Column(db.LargeBinary)
+    teacher_id = db.Column(db.Integer(), db.ForeignKey('teachers.id'), nullable=False)
+
+    def __repr__(self):
+        return f"FileUploadsG11('{self.FileName}', '{self.DateCreated}', '{self.teacher}')"
+
+class FileUploadsAS(db.Model):
+    __tablename__ = 'fileuploadsas'
+    id = db.Column(db.Integer, primary_key=True)
+    FileName = db.Column(db.String(60), nullable=False)
+    SubjectName = db.Column(db.String(60), nullable=False)
+    DateCreated = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    Data = db.Column(db.LargeBinary)
+    teacher_id = db.Column(db.Integer(), db.ForeignKey('teachers.id'), nullable=False)
+
+    def __repr__(self):
+        return f"FileUploadsAS('{self.FileName}', '{self.DateCreated}', '{self.teacher}')"

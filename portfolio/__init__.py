@@ -8,8 +8,8 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = '626f47136c41741b5d887d811e4d718a'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-app.config['MAX_CONTENT_LENGTH'] = 102400 * 1024
-app.config['UPLOAD_EXTENSIONS'] = ['.pdf', '.docx']
+app.config['MAX_CONTENT_LENGTH'] =100 * 1024 * 1024
+app.config['ALLOWED_EXTENSIONS'] = ['.pdf', '.docx']
 app.config['UPLOAD_PATH'] = 'uploads'
 
 db = SQLAlchemy(app)

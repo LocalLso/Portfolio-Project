@@ -1,12 +1,12 @@
 {% extends "main.html"%}
 {% block body %}
 <div class="container text-center">
-<div class="d-flex justify-content-center float-md-none text-secondary pt-5">
-	<h1 class="font-monospace fw-lighter">Learning maths made easy and sharing of content!</h1>
-</div>
+	<div class="d-flex justify-content-center float-md-none text-secondary pt-5">
+		<h1 class="font-monospace fw-lighter">Learning maths made easy and sharing of content!</h1>
+	</div>
 </div>
 <div class="d-flex justify-content-center float-md-none pt-5">
-	<p><a type="button" class="btn btn-outline-primary btn-lg bg-dark" href="#top">The School Lab</a></p>
+	<p><a type="button" class="btn btn-outline-primary btn-lg bg-dark" href="{{ url_for('home') }}">The School Lab</a></p>
 </div>
 
 <div class="card-group pt-5 px-5">
@@ -14,7 +14,7 @@
 		<div class="card-body text-light">
 			<h5 class="card-title">LGCSE</h5>
 			<p class="card-text">Within this category, find all materials needed to succeed in mathematics, from notes, tests, to solutions. Explore to get the best from top intructors.</p>
-			<a type="button" href="#" class="card-link btn btn-outline-primary">LGCSE</a>
+			<a type="button" href="{{ url_for('lgcse') }}" class="card-link btn btn-outline-primary">LGCSE</a>
 		</div>
 	</div>
 	<div class="card bg-dark">

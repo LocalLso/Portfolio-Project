@@ -1,6 +1,6 @@
-from flask import Flask, render_template, flash, redirect, url_for, request, send_file
+from flask import Flask, render_template, flash, redirect, url_for, request, send_file, current_app
 from io import BytesIO
-from portfolio.models import Teachers, Students, Tests, FileUploads, FileUploadsG9, FileUploadsG10, FileUploadsG11, Subjects
+from portfolio.models import User, FileUploads, FileUploadsG9, FileUploadsG10, FileUploadsG11, load_user
 from portfolio.forms import RegistrationForm, LoginForm, UpdateAccountForm, UploadForm
 from portfolio import app, db, bcrypt
 from flask_login import login_user, current_user, logout_user, login_required
@@ -8,6 +8,23 @@ import secrets
 import os
 from werkzeug.utils import secure_filename
 from PIL import Image
+from functools import wraps
+
+
+
+def role_required(role="ANY"):
+    def wrapper(fn):
+        @wraps(fn)
+        def decorated_view(*args, **kwargs):
+            if not current_user.is_authenticated:
+                return current_app.login_manager.unauthorized()
+            user_role = current_user.role
+            if ( (user_role != role)  and (role != "ANY")):
+                return current_app.login_manager.unauthorized()
+            return fn(*args, **kwargs)
+        return decorated_view
+    return wrapper
+
 
 @app.route("/")
 @app.route("/home")
@@ -25,7 +42,8 @@ def register():
         return redirect(url_for('home'))
     if  form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = Teachers(name=form.name.data, surname=form.surname.data, username=form.username.data, email=form.email.data, password=hashed_password)
+        user = User(name=form.name.data, surname=form.surname.data, username=form.username.data,
+                    email=form.email.data, password=hashed_password, role=form.role.data, active=False, image_file='default.png', grade=form.grade.data)
         db.session.add(user)
         db.session.commit()
         flash(f'Account created for {form.username.data}', 'success!')
@@ -39,7 +57,7 @@ def login():
         return redirect(url_for('home'))
     form = LoginForm()
     if  form.validate_on_submit():
-            user = Teachers.query.filter_by(email=form.email.data).first()
+            user = User.query.filter_by(email=form.email.data).first()
             if user and bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
                 next_page = request.args.get('next')
@@ -96,6 +114,7 @@ def lgcse():
 
 
 @app.route("/grade8/<subject>", methods=['GET','POST'])
+@role_required(role="TEACHER")
 @login_required
 def grade8(subject):
     form = UploadForm()
@@ -119,6 +138,7 @@ def grade8(subject):
 
 
 @app.route("/grade9/<subject>", methods=['GET','POST'])
+@role_required(role="TEACHER")
 @login_required
 def grade9(subject):
     form = UploadForm()
@@ -142,6 +162,7 @@ def grade9(subject):
 
 
 @app.route("/grade10/<subject>", methods=['GET','POST'])
+@role_required(role="TEACHER")
 @login_required
 def grade10(subject):
     form = UploadForm()
@@ -165,6 +186,7 @@ def grade10(subject):
 
 
 @app.route("/grade11/<subject>", methods=['GET','POST'])
+@role_required(role="TEACHER")
 @login_required
 def grade11(subject):
     form = UploadForm()

@@ -1,0 +1,29 @@
+{ extends "main.html" }
+{% block body %}
+<div class="content-section d-flex justify-content-center float-md-none py-3">
+	<form method="POST", action="">
+		{{ form.hidden_tag() }}
+		<fieldset class="form-group">
+			<legend class="border-botttom mb-4">Choose Grade</legend>
+			<div class="mb-3">
+				<div class="form-group">
+					{{ form.grade.label(class="form-control-label") }}<br>
+					{% if form.grade.errors %}
+					{{ form.grade(class="form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.grade.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+					{% else %}
+					{{ form.grade(class="form-control-lg") }}
+					{% endif %}	
+				</div>
+			</div>
+		</fieldset>
+		<div>
+			{{ form.submit(class="btn btn-outline-info bg-dark border-secondary") }}
+		</div>
+	</form>
+</div>
+{% endblock body %}

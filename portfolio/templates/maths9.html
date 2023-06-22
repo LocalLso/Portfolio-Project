@@ -118,9 +118,9 @@
                                 {% for file in files9 %}
                                 <div>
                                     <a href="{{ url_for('uploads9', upload_id=file.id) }}">{{ file.FileName }}</a>
-                                    <small>{{file.SubjectName}}</small>
+                                    <small>{{ file.SubjectName }}</small>
                                     <small>{{ file.DateCreated.strftime('%Y-%m-%d') }}</small>
-                                    <small>By {{file.teacher.name}}</small>
+                                    <small>By {{ file.user.name }}</small>
                                 </div>
                                 {% endfor %}
                             </div>

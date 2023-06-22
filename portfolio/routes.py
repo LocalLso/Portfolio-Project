@@ -53,6 +53,7 @@ def register():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    grades = ['Grade8', 'Grade9', 'Grade10', 'Grade11', 'AS']
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
@@ -60,6 +61,9 @@ def login():
             user = User.query.filter_by(email=form.email.data).first()
             if user and bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
+                for grade in grades:
+                    if current_user.grade == grade:
+                        return redirect(url_for('students', grade_no=current_user.grade))
                 next_page = request.args.get('next')
                 return redirect(next_page) if next_page else redirect(url_for('home'))
             else:
@@ -127,7 +131,7 @@ def grade8(subject):
         if file_uploaded != '':
             if f_ext not in app.config['ALLOWED_EXTENSIONS']:
                 return redirect(url_for('grade8', subject="mathematics"))
-            FileUpload = FileUploads(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), teacher=current_user)
+            FileUpload = FileUploads(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), user=current_user)
             db.session.add(FileUpload)
             db.session.commit()
             files8 = FileUploads.query.all()
@@ -151,7 +155,7 @@ def grade9(subject):
         if file_uploaded != '':
             if f_ext not in app.config['ALLOWED_EXTENSIONS']:
                 return redirect(url_for('grade9', subject="mathematics"))
-            FileUpload = FileUploadsG9(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), teacher=current_user)
+            FileUpload = FileUploadsG9(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), user=current_user)
             db.session.add(FileUpload)
             db.session.commit()
             files9 = FileUploadsG9.query.all()
@@ -175,7 +179,7 @@ def grade10(subject):
         if file_uploaded != '':
             if f_ext not in app.config['ALLOWED_EXTENSIONS']:
                 return redirect(url_for('grade10', subject="mathematics"))
-            FileUpload = FileUploadsG10(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), teacher=current_user)
+            FileUpload = FileUploadsG10(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), user=current_user)
             db.session.add(FileUpload)
             db.session.commit()
             files10 = FileUploadsG10.query.all()
@@ -199,7 +203,7 @@ def grade11(subject):
         if file_uploaded != '':
             if f_ext not in app.config['ALLOWED_EXTENSIONS']:
                 return redirect(url_for('grade11', subject="mathematics"))
-            FileUpload = FileUploadsG11(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), teacher=current_user)
+            FileUpload = FileUploadsG11(FileName=file_uploaded,  SubjectName=subject, Data=data.read(), user=current_user)
             db.session.add(FileUpload)
             db.session.commit()
             files11 = FileUploadsG11.query.all()
@@ -208,7 +212,7 @@ def grade11(subject):
         files11 = FileUploadsG11.query.all()
     return render_template('maths11.html', title='mathematics', form=form, subject="mathematics", files11=files11)
 
-
+# for teachers - to be removed later
 @app.route("/maths/<int:upload_id>/uploads")
 def uploads(upload_id):
     file = FileUploads.query.get_or_404(upload_id)
@@ -228,3 +232,52 @@ def uploads10(upload_id):
 def uploads11(upload_id):
     file = FileUploadsG11.query.get_or_404(upload_id)
     return send_file(BytesIO(file.Data), download_name=file.FileName, as_attachment=True)
+
+# For students
+@app.route("/maths/<int:content8>/uploadsContent")
+def uploadsContent(content8):
+    file = FileUploads.query.get_or_404(content8)
+    return send_file(BytesIO(file.Data), download_name=file.FileName, as_attachment=True)
+
+@app.route("/maths/<int:content9>/uploadsContent")
+def uploadsContent9(content9):
+    file = FileUploadsG9.query.get_or_404(content9)
+    return send_file(BytesIO(file.Data), download_name=file.FileName, as_attachment=True)
+
+@app.route("/maths/<int:content10>/uploadsContent")
+def uploadsContent10(content10):
+    file = FileUploadsG10.query.get_or_404(content10)
+    return send_file(BytesIO(file.Data), download_name=file.FileName, as_attachment=True)
+
+@app.route("/maths/<int:content11>/uploadsContent")
+def uploadsContent11(content11):
+    file = FileUploadsG11.query.get_or_404(content11)
+    return send_file(BytesIO(file.Data), download_name=file.FileName, as_attachment=True)
+
+
+@app.route("/maths/<int:contentAS>/uploadsContent")
+def uploadsContentAS(contentAS):
+    file = FileUploadsG11.query.get_or_404(contentAS)
+    return send_file(BytesIO(file.Data), download_name=file.FileName, as_attachment=True)
+
+
+
+@app.route("/students/<grade_no>")
+@role_required(role="STUDENT")
+@login_required
+def students(grade_no):
+    if current_user.grade == 'Grade8':
+        content8 = FileUploads.query.all()
+        return render_template('student_content.html', title='G8-Maths', grade_no=current_user.grade, content8=content8, subject="mathematics")
+    elif current_user.grade == 'Grade9':
+        content9 = FileUploadsG9.query.all()
+        return render_template('student_content9.html', title='G9-Maths', grade_no=current_user.grade, content9=content9, subject="mathematics")
+    elif current_user.grade == 'Grade10':
+        content10 = FileUploadsG10.query.all()
+        return render_template('student_content10.html', title='G10-Maths', grade_no=current_user.grade, content10=content10, subject="mathematics")
+    elif current_user.grade == 'Grade11':
+        content11 = FileUploadsG11.query.all()
+        return render_template('student_content11.html', title='G11-Maths', grade_no=current_user.grade, content11=content11, subject="mathematics")
+    elif current_user.grade == 'AS':
+        contentAS = FileUploadsAS.query.all()
+        return render_template('student_contentAS.html', title='AS-Maths', grade_no=current_user.grade, contentAS=contentAS, subject="mathematics")

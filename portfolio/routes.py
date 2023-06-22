@@ -35,6 +35,11 @@ def home():
 def about():
     return render_template('about.html', title='About')
 
+@app.route("/contactUs")
+def contactUs():
+    return render_template('contact_us.html', title='Contact Us')
+
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
